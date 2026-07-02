@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -62,7 +63,7 @@ public class AutorController {
         service.deletarAutor(autorOptional.get().getId());
         return ResponseEntity.noContent().build();
     }
-    @GetMapping
+    @GetMapping(params = "nome")
     public ResponseEntity<AutorDTO> buscarPorNome(@RequestParam  String nome){
         Optional<Autor>autorOptional= Optional.ofNullable(service.buscaPorNome(nome));
         if (autorOptional.isPresent()){
@@ -77,10 +78,14 @@ public class AutorController {
 
     }
     @GetMapping
-    public Optional<AutorDTO>buscarnomeounacionalidade(@RequestParam(required = false) String nome, @RequestParam(required = false) String nacionalidade){
-
-
-
+    public ResponseEntity<List<AutorDTO>> listarTodos(){
+        List<Autor>autors=service.listarTodos();
+        List<AutorDTO>autorDTOS=autors.stream().map(autor->new AutorDTO(autor.getId(),
+                autor.getNome(),
+                autor.getDataNascimento(),
+                autor.getNacionaliade())).toList();
+        return ResponseEntity.ok(autorDTOS);
     }
+
 
 }
