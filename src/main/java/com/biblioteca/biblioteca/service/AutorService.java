@@ -15,7 +15,7 @@ import java.util.UUID;
 @Service
 public class AutorService {
 
-   private AutorRepository repository;
+    private AutorRepository repository;
 
     @Autowired
     public AutorService(AutorRepository repository) {
@@ -23,27 +23,55 @@ public class AutorService {
     }
 
 
-    public Autor salvar(Autor autor){
+    public Autor salvar(Autor autor) {
 
-            return repository.save(autor);
+        return repository.save(autor);
 
     }
 
-    public List<Autor> listarTodos(){
+
+    public List<Autor> listarTodos() {
         return repository.findAll();
     }
 
-    public Optional<Autor> buscarPorId(UUID id){
+    public Optional<Autor> buscarPorId(UUID id) {
         return repository.findById(id);
     }
 
-    public void deletarAutor(UUID id){
+    public void deletarAutor(UUID id) {
         repository.findById(id);
     }
-    public Autor buscaPorNome(String nome){
+
+    public List<Autor> buscaPorNome(String nome) {
         return repository.findByNome(nome);
     }
 
+    public void atualizar(UUID id, Autor autor) {
+        if (id == null) {
+            repository.save(autor);
 
+        } else {
+            autor.setId(id);
+            repository.save(autor);
+        }
 
+    }
+
+    public List<Autor> buscarNomeOuNacionalidade(String nome, String nacionalidade) {
+        if (nome != null && nacionalidade != null) {
+            return repository.findByNomeAndNacionalidade(nome, nacionalidade);
+
+        }
+        if (nome != null) {
+            return repository.findByNome(nome);
+
+        }
+        if (nacionalidade != null) {
+           return repository.findByNacionalidade(nacionalidade);
+
+        }
+
+        return repository.findAll();
+
+    }
 }

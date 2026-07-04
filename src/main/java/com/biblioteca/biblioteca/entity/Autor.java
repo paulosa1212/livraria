@@ -32,7 +32,7 @@ public class Autor {
 
     @Column(length = 80, nullable = false)
     @NotEmpty
-    private String nacionaliade;
+    private String nacionalidade;
 
     @Column(name = "data_cadastro", updatable = false)
     @CreationTimestamp
@@ -54,7 +54,7 @@ public class Autor {
         this.id = id;
         this.nome = nome;
         this.dataNascimento = dataNascimento;
-        this.nacionaliade = nacionaliade;
+        this.nacionalidade = nacionaliade;
         this.dataDoCadastro = dataDoCadastro;
         this.dataAtualizacao = dataAtualizacao;
     }

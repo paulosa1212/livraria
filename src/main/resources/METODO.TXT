@@ -1,0 +1,80 @@
+ @PostMapping
+    public ResponseEntity<Void> salvarAutor(@RequestBody AutorDTO autor) {
+        var autorENtidade = autor.mapearAutor();
+        service.salvar(autorENtidade);
+
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}").buildAndExpand(autorENtidade.getId())
+                .toUri();
+
+        return ResponseEntity.created(location).build();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<AutorDTO> buscarPorId(@PathVariable String id) {
+        var idAutor = UUID.fromString(id);
+        Optional<Autor> autorOptional = service.buscarPorId(idAutor);
+        if (autorOptional.isPresent()) {
+            Autor autor = autorOptional.get();
+            AutorDTO dto = new AutorDTO(autor.getId(),
+                    autor.getNome(),
+                    autor.getDataNascimento(),
+                    autor.getNacionaliade());
+            return ResponseEntity.ok(dto);
+        }
+        return ResponseEntity.notFound().build();
+
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable String id) {
+        var idAutor = UUID.fromString(id);
+        Optional<Autor> autorOptional = service.buscarPorId(idAutor);
+        if (autorOptional.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        service.deletarAutor(autorOptional.get().getId());
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping(params = "nome")
+    public ResponseEntity<AutorDTO> buscarPorNome(@RequestParam String nome) {
+        Optional<Autor> autorOptional = Optional.ofNullable(service.buscaPorNome(nome));
+        if (autorOptional.isPresent()) {
+            Autor autor = autorOptional.get();
+            AutorDTO autorDTO = new AutorDTO(autor.getId(), autor.getNome(), autor.getDataNascimento(), autor.getNacionaliade());
+            return ResponseEntity.ok(autorDTO);
+
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+
+    }
+
+    @GetMapping
+    public ResponseEntity<List<AutorDTO>> listarTodos() {
+        List<Autor> autors = service.listarTodos();
+        List<AutorDTO> autorDTOS = autors.stream().map(autor -> new AutorDTO(autor.getId(),
+                autor.getNome(),
+                autor.getDataNascimento(),
+                autor.getNacionaliade())).toList();
+        return ResponseEntity.ok(autorDTOS);
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<Void> atualizar(@PathVariable String id, @RequestBody AutorDTO dto) {
+        var idAutor = UUID.fromString(id);
+        Optional<Autor> autorOptional = service.buscarPorId(idAutor);
+        if (autorOptional.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        var autor = autorOptional.get();
+        autor.setNome(dto.nome());
+        autor.setNacionaliade(dto.nacionalidade());
+        autor.setDataNascimento(dto.dataNascimento());
+        service.salvar(autor);
+        return ResponseEntity.noContent().build();
+
+
+    }

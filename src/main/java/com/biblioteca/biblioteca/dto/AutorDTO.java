@@ -12,7 +12,7 @@ public record AutorDTO(UUID id,String nome, LocalDate dataNascimento, String nac
         Autor autor=new Autor();
         autor.setNome(this.nome);
         autor.setDataNascimento(this.dataNascimento);
-        autor.setNacionaliade(this.nacionalidade);
+        autor.setNacionalidade(this.nacionalidade);
         return autor;
     }
 
