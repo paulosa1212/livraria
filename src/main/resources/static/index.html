@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteca</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Biblioteca</h1>
+        <nav>
+            <button id="nav-autores" class="active" onclick="switchTab('autores')">Autores</button>
+            <button id="nav-livros" onclick="switchTab('livros')">Livros</button>
+        </nav>
+    </header>
+
+    <main class="container">
+
+        <!-- ===== Autores ===== -->
+        <section id="tab-autores">
+
+            <div class="card" id="form-autor-card">
+                <h2>Cadastrar Autor</h2>
+                <form id="autor-form">
+                    <div class="row">
+                        <div>
+                            <label for="autor-nome">Nome</label>
+                            <input type="text" id="autor-nome" placeholder="Nome completo" required>
+                        </div>
+                        <div>
+                            <label for="autor-data">Data de Nascimento</label>
+                            <input type="date" id="autor-data" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div>
+                            <label for="autor-nacionalidade">Nacionalidade</label>
+                            <input type="text" id="autor-nacionalidade" placeholder="Ex: Brasileira" required>
+                        </div>
+                        <div class="actions">
+                            <button type="button" class="btn btn-danger btn-small" id="btn-cancelar-autor" onclick="cancelarAutor()">Cancelar</button>
+                            <button type="submit" class="btn btn-success">Salvar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card">
+                <h2>Lista de Autores</h2>
+                <div class="search-bar">
+                    <input type="text" id="busca-autor" placeholder="Filtrar por nome ou nacionalidade..." onkeyup="filtrarAutores()">
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Data Nascimento</th>
+                            <th>Nacionalidade</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabela-autores-body">
+                        <tr><td colspan="4" class="empty">Carregando...</td></tr>
+                    </tbody>
+                </table>
+                <div class="actions" style="margin-top:1rem;">
+                    <button class="btn btn-primary" onclick="carregarAutores()">Recarregar</button>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ===== Livros ===== -->
+        <section id="tab-livros" class="hidden">
+
+            <div class="card" id="form-livro-card">
+                <h2>Cadastrar Livro</h2>
+                <form id="livro-form">
+                    <div class="row">
+                        <div>
+                            <label for="livro-titulo">Título</label>
+                            <input type="text" id="livro-titulo" placeholder="Título do livro" required>
+                        </div>
+                        <div>
+                            <label for="livro-isbn">ISBN</label>
+                            <input type="text" id="livro-isbn" placeholder="ISBN" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div>
+                            <label for="livro-data">Data de Publicação</label>
+                            <input type="date" id="livro-data" required>
+                        </div>
+                        <div>
+                            <label for="livro-autor">Autor</label>
+                            <select id="livro-autor" required>
+                                <option value="">Selecione um autor</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="actions" style="grid-column:1/-1; justify-content:flex-end;">
+                            <button type="button" class="btn btn-danger btn-small" id="btn-cancelar-livro" onclick="cancelarLivro()">Cancelar</button>
+                            <button type="submit" class="btn btn-success">Salvar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card">
+                <h2>Lista de Livros</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Título</th>
+                            <th>ISBN</th>
+                            <th>Data Publicação</th>
+                            <th>Autor</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabela-livros-body">
+                        <tr><td colspan="5" class="empty">Carregando...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </section>
+
+    </main>
+
+    <div id="toast" class="toast"></div>
+
+    <script src="/js/app.js"></script>
+</body>
+</html>
