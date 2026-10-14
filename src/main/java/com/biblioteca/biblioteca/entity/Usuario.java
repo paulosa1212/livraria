@@ -18,7 +18,7 @@ public class Usuario {
     private UUID id;
     @Column
     private String login;
-    @Column
+
     private String senha;
     @Enumerated(EnumType.STRING)
     private Roles roles;

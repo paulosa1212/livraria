@@ -27,9 +27,7 @@ public class SecurityConfiguration {
                 .formLogin(Customizer.withDefaults())
                 .httpBasic(Customizer.withDefaults())
                 .authorizeHttpRequests(autorize -> {
-                    autorize.requestMatchers(HttpMethod.POST, "/usuarios").permitAll();
-                    autorize.requestMatchers(HttpMethod.POST, "/autores").hasAnyRole("ADMIN");
-                    autorize.anyRequest().authenticated();
+                   autorize.requestMatchers("/livros/**").permitAll();
                 })
                 .build();
     }
@@ -40,9 +38,9 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public UserDetailsService userDetailsService(UsuarioService userDetailsService) {
+    public UserDetailsService userDetailsService(UsuarioService user) {
 
 
-        return new CustomUserDatailService(userDetailsService);
+        return new CustomUserDatailService(user);
     }
 }

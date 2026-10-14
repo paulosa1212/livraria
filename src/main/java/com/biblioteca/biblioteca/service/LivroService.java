@@ -1,6 +1,7 @@
 package com.biblioteca.biblioteca.service;
 
 import com.biblioteca.biblioteca.entity.Livro;
+import com.biblioteca.biblioteca.exceptions.RegistroNaoEncontradoException;
 import com.biblioteca.biblioteca.repository.LivroRepository;
 import com.biblioteca.biblioteca.validator.LivroValidator;
 import lombok.AllArgsConstructor;
@@ -29,12 +30,12 @@ public class LivroService {
 
     public void deletarPorId(UUID id){
         if (!livroRepository.existsById(id)){
-            throw new RuntimeException("nao encontrado");
+            throw new RegistroNaoEncontradoException("livro nao encontrado");
         }
         livroRepository.deleteById(id);
     }
     public Livro buscarPorId(UUID id){
-      return livroRepository.findById(id).orElseThrow(()->new RuntimeException("nao encontrado"));
+      return livroRepository.findById(id).orElseThrow(()->new RegistroNaoEncontradoException("livro nao encontrado"));
     }
 
 }

@@ -17,10 +17,11 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/usuarios")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UsuarioController {
 
     private final UsuarioService service;
@@ -59,5 +60,27 @@ public class UsuarioController {
         ).toList();
 
         return ResponseEntity.ok(usuarioDTOS);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UsuarioDTOSaida> buscarPorId(@PathVariable UUID id) {
+        var usuario = service.buscarPorId(id);
+        return ResponseEntity.ok(mapper.toDto(usuario));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> atualizar(@PathVariable UUID id, @RequestBody @Valid UsuarioDTOEntrada dto) {
+        var usuario = service.buscarPorId(id);
+        usuario.setLogin(dto.login());
+        usuario.setSenha(dto.senha());
+        usuario.setRoles(dto.roles());
+        service.salvar(usuario);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable UUID id) {
+        service.deletarPorId(id);
+        return ResponseEntity.noContent().build();
     }
 }

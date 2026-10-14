@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -38,5 +39,17 @@ public class UsuarioService {
     }
     public List<Usuario>findAll(){
         return repository.findAll();
+    }
+
+    public Usuario buscarPorId(UUID id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new UsernameNotFoundException("nao encontrado"));
+    }
+
+    public void deletarPorId(UUID id) {
+        if (!repository.existsById(id)) {
+            throw new UsernameNotFoundException("nao encontrado");
+        }
+        repository.deleteById(id);
     }
 }

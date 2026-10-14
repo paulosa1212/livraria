@@ -33,15 +33,14 @@ public class CustomUserDatailService implements UserDetailsService {
 //                .build();
 //    }
 @Override
-public UserDetails loadUserByUsername(String nome) throws UsernameNotFoundException {
+public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
 
 
 
-    Usuario usuario = service.obterPorLogin(nome)
+    Usuario usuario = service.obterPorLogin(login)
             .orElseThrow(() -> new UsernameNotFoundException("Usuário não existe"));
 
-    System.out.println(">>> USUARIO ENCONTRADO: " + usuario.getLogin());
-    System.out.println(">>> ROLE: " + usuario.getRoles());
+
 
     return User.builder()
             .username(usuario.getLogin())

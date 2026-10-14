@@ -52,6 +52,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(RegistroNaoEncontradoException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErroResposta naoEncontrsdo(RegistroNaoEncontradoException e) {
         return ErroResposta.naoEncontrado(e.getMessage());
 

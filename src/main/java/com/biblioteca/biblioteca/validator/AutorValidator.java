@@ -20,9 +20,14 @@ public class AutorValidator {
 
     public void validar(Autor autor){
         if (existeAutor(autor)){
-            throw new RegistroDuplicadoException("este autor ja esta cadastrado");
+            throw getEsteAutorJaEstaCadastrado();
         }
     }
+
+    private static RegistroDuplicadoException getEsteAutorJaEstaCadastrado() {
+        return new RegistroDuplicadoException("este autor ja esta cadastrado");
+    }
+
     private boolean existeAutor(Autor autor){
         Optional<Autor>possivelAutor=repository.findByNomeAndDataNascimentoAndNacionalidade(
                 autor.getNome()
